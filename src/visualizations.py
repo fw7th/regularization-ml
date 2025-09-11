@@ -1,11 +1,24 @@
+import os
+import numpy
 import matplotlib.pyplot as plt
-from utils import loadWeights
+from .utils import loadWeights
+import torch
 
-def plotFmaps_and_activationHist(model, model_type, model_weights, layer=0):
+device = "cuda" if torch.cuda.is_available() else "cpu"
+
+def load_folder_name(model_type):
+  visualizations_folder = f"/content/drive/MyDrive/regularization-ml/experiments/{model_type}/visualizations"
+  return visualizations_folder
+
+def plotFmaps_and_activationHist(model, model_type, model_weights, val_loader, layer=0):
     # Load weights
     model = loadWeights(model, model_type, model_weights)
     model.to(device)
     model.train()  # keep dropout active
+
+    visualizations_folder = load_folder_name(model_type)
+    if not os.path.exists(visualizations_folder):
+        os.makedirs(visualizations_folder)
 
     # Grab one sample
     for batch in val_loader:
@@ -40,7 +53,7 @@ def plotFmaps_and_activationHist(model, model_type, model_weights, layer=0):
         axes[i // 8, i % 8].axis("off")
 
     plt.subplots_adjust(wspace=0.1, hspace=0.1)
-    plt.savefig(f"{base}/{model_type}/{model_weights}_fmaps_layer{layer}.png",
+    plt.savefig(f"{visualizations_folder}/{model_weights}_fmaps_layer{layer}.png",
                 dpi=300, bbox_inches='tight')
     plt.show()
     plt.close(fig)
@@ -56,13 +69,16 @@ def plotFmaps_and_activationHist(model, model_type, model_weights, layer=0):
     plt.ylabel("Frequency")
     plt.grid(True)
 
-    plt.savefig(f"{base}/{model_type}/{model_weights}_hist_layer{layer}.png",
+    plt.savefig(f"{visualizations_folder}/{model_weights}_hist_layer{layer}.png",
                 dpi=300, bbox_inches="tight")
     plt.show()
     plt.close()
 
 def plotCurves(train_losses, val_losses, train_accs, val_accs, model_type):
     epochs = range(1, len(train_losses) + 1)
+    visualizations_folder = load_folder_name(model_type)
+    if not os.path.exists(visualizations_folder):
+        os.makedirs(visualizations_folder)
 
     # Plot Loss
     fig, ax = plt.subplots(figsize=(8,6))
@@ -74,7 +90,7 @@ def plotCurves(train_losses, val_losses, train_accs, val_accs, model_type):
     ax.legend()
     ax.grid(True)
 
-    fig.savefig(f"{base}/{model_type}/train&val_loss.png", dpi=300, bbox_inches="tight")
+    fig.savefig(f"{visualizations_folder}/train&val_loss.png", dpi=300, bbox_inches="tight")
     plt.show()
     plt.close(fig)
 
@@ -90,6 +106,6 @@ def plotCurves(train_losses, val_losses, train_accs, val_accs, model_type):
     ax.legend()
     ax.grid(True)
 
-    fig.savefig(f"{base}/{model_type}/train&val_acc.png", dpi=300, bbox_inches="tight")
+    fig.savefig(f"{visualizations_folder}/train&val_acc.png", dpi=300, bbox_inches="tight")
     plt.show()
     plt.close(fig)

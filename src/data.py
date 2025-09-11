@@ -1,4 +1,4 @@
-from utils import unpickle
+from .utils import unpickle
 from PIL import Image
 import numpy as np
 import torch
@@ -27,17 +27,17 @@ class CustomDataset(Dataset):
 # dataset = CustomDataset(my_data, my_labels, transform=my_transform)
 # dataloader = torch.utils.data.DataLoader(dataset, batch_size=32, shuffle=True)
 
-def load_cifar_10_data(dirs="content/dataset/cifar-10-batches-py"):
+def load_cifar_10_data(directory="/content/dataset/cifar-10-batches-py"):
     train_data = []
     train_labels = []
     for i in range(1, 6):
-        d = unpickle(f"{dirs}/data_batch_{i}")
+        d = unpickle(f"{directory}/data_batch_{i}")
         train_data.append(d[b'data'])
         train_labels.extend(d[b'labels'])
     training_data = np.vstack(train_data)
     training_labels = np.array(train_labels)
 
-    test_dict = unpickle(f"{dir}/test_batch")
+    test_dict = unpickle(f"{directory}/test_batch")
     test_data = test_dict[b'data']
     test_labels = np.array(test_dict[b'labels'])
     
@@ -143,8 +143,6 @@ def Loader(train_data, train_labels, val_data, val_labels, test_data, test_label
         pin_memory=True if torch.cuda.is_available() else False
     )
 
-    class_names = list(class_to_idx.keys())
-    print("Classes:", class_names)
     print(f"Training samples: {len(train_dataset)}")
     print(f"Validation samples: {len(val_dataset)}")
     print(f"Batch size: {batch_size}")

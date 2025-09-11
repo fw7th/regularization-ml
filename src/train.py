@@ -1,8 +1,9 @@
 import torch.optim as optim
 import torch
+import torch.nn as nn
 import time
 from tqdm import tqdm
-from utils import EarlyStopping
+from .utils import EarlyStopping
 
 def trainModel(model, history, train_loader, val_loader, model_type):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -24,7 +25,10 @@ def trainModel(model, history, train_loader, val_loader, model_type):
     )
 
     # Add early stopping
-    early_stopping = EarlyStopping(patience=7, delta=0.001, path=f"{base}/{model_type}/model_best.pth")
+    base = "/content/drive/MyDrive/regularization-ml"
+    weights_folder = f"{base}/experiments/{model_type}/weights"
+    early_stopping = EarlyStopping(patience=10, delta=0.001, path=f"{weights_folder}/model_best.pth")
+    # Early stopping object saves model based on best val acc.
 
     for epoch in range(max_epochs):
         print("-" * 50)
@@ -97,18 +101,10 @@ def trainModel(model, history, train_loader, val_loader, model_type):
 
         early_stopping(val_loss, model)
 
-        # Save model at 25th epoch and at last epoch
-        if epoch == 24:
-            torch.save(model.state_dict(), f"{base}/{model_type}/epoch_25.pth")
-            print("💾 Saved model for epoch 25!")
-
+        # Save model at last epoch
         if early_stopping.early_stop:
             print("Early stopping triggered!")
             break
-
-        torch.save(model.state_dict(), f"{base}/{model_type}/final_epoch.pth")
-        print("💾 Max epochs reached. Saving final model")
-
 
         # Print progress
         epoch_time = time.time() - start_time

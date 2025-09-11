@@ -1,12 +1,15 @@
 import torch
+import numpy
 import json
 import copy
-import torch
 import matplotlib.pyplot as plt
 import seaborn as sns
 from thop import profile
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report, accuracy_score
+
+base = "/content/drive/MyDrive/regularization-ml/experiments"
+device = "cuda" if torch.cuda.is_available() else "cpu"
 
 # Implementing an early stopping class based on val loss
 class EarlyStopping:
@@ -48,14 +51,14 @@ def unpickle(file):
     return dict
 
 def loadWeights(model, model_type, model_weights):
-    PATH = f"{base}/{model_type}/{model_weights}.pth"
+    PATH = f"{base}/{model_type}/weights/{model_weights}.pth"
     state_dict = torch.load(PATH, map_location=device)
     model.load_state_dict(state_dict)
 
     return model
 
 def readJson(model_type):
-    json_file = f'{base}/{model_type}/history_{model_type}.json'
+    json_file = f'{base}/{model_type}/logs/history_{model_type}.json'
     with open(json_file, 'r') as f:
         data = json.load(f)
     return data
@@ -78,7 +81,7 @@ def genError(train_losses, val_losses, model_type, model_epoch):
     plt.grid(True)
 
     plt.subplots_adjust(wspace=0.1, hspace=0.1)
-    plt.savefig(f"{base}/{model_type}/generalization_error_{model_epoch}.png", dpi=300, bbox_inches='tight')
+    plt.savefig(f"{base}/{model_type}/visualizations/generalization_error_{model_epoch}.png", dpi=300, bbox_inches='tight')
     plt.show()
     plt.close(fig)
     
@@ -94,12 +97,12 @@ def saveHistory(history, model_type):
         else:
             history_serializable[key] = value
 
-    with open(f"{base}/{model_type}/history_{model_type}.json", "w") as f:
+    with open(f"{base}/{model_type}/logs/history_{model_type}.json", "w") as f:
         json.dump(history_serializable, f, indent=4)
 
     print("File Saved!")
 
-def evalModel(model, model_type, model_weights):
+def evalModel(model, model_type, model_weights, test_loader):
     model_to_eval = loadWeights(model, model_type, model_weights)
 
     y_true = [] # ground truth labels
@@ -142,6 +145,6 @@ def evalModel(model, model_type, model_weights):
     plt.title("Confusion Matrix")
 
     plt.subplots_adjust(wspace=0.1, hspace=0.1)
-    plt.savefig(f"{base}/{model_type}/confusion_matrix.png", dpi=300, bbox_inches='tight')
+    plt.savefig(f"{base}/{model_type}/visualizations/confusion_matrix.png", dpi=300, bbox_inches='tight')
     plt.show()
     plt.close(fig)

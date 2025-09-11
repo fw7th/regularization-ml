@@ -1,3 +1,6 @@
 weights/
 *.pt
+*.pth
+*.tar.gz
+.ipynb_checkpoints/
 data/
