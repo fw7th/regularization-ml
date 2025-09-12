@@ -63,6 +63,9 @@ class EarlyStopping:
 
 
 def unpickle(file):
+    """
+    Unpickles a file.
+    """
     import pickle
 
     with open(file, "rb") as fo:
@@ -71,7 +74,19 @@ def unpickle(file):
 
 
 def loadWeights(model, weights_path):
-    if not os.path.exists(weights_path):
+    """
+    Loads weights into given model architecture.
+
+    Globals:
+        device (str): Determines device to use, gpu or cpu, based on availability.
+
+    Outputs:
+        - An error if the model weights aren't found or specified.
+
+    Returns:
+        model (torch.nn.Module): Model with loaded state dict for inference.
+    """
+    if not os.path.exists(weights_path) or weights_path == None:
         print("Model weights not found.")
     else:
         state_dict = torch.load(weights_path, map_location=device)
@@ -91,6 +106,7 @@ def readJson(file_path):
 
 def genError(save_path, train_losses, val_losses):
     # This function plots generalization gap across epochs using losses
+    # Saves the plot to the speicifed directory, dir is created if it doesn't exist.
     gen_err_list = []
     for epoch in range(len(train_losses)):
         train_loss = train_losses[epoch]
@@ -122,6 +138,14 @@ def genError(save_path, train_losses, val_losses):
 
 
 def saveHistory(history, save_path):
+    """
+    Converts a python dictionary to a json file.
+
+    Args:
+        history (dict): Python dictionary to extract from.
+        save_path (JSON): Json file to save to. Created if it doesn't exist, overwritten if it does.
+    """
+
     if not os.path.exists(save_path):
         print("Save path does not exist, creating..")
         os.makedirs(save_path)
@@ -143,6 +167,19 @@ def saveHistory(history, save_path):
 
 
 def evalModel(model, visualizations_path, test_loader):
+    """
+    Full model evaluation. Metrics evaluated:
+        - Accuracy
+        - Classification report
+        - Flops
+        - Param counts
+        - Confusion matrix
+
+    Args:
+        model (torch.nn.Module): Torch module to evaluate.
+        visualizations_path (string): Path to save confusion matrix plot, created if it doesn't exist (don't add the plot name, just path)
+        test_loader (torch.utils.data.DataLoader): Pytorch test loader, needed for evaluation.
+    """
     y_true = []  # ground truth labels
     y_pred = []  # predicted labels
 

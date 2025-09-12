@@ -37,8 +37,8 @@ def trainModel(
 
     saves:
         {model_type}.pth (torch.state_dict): Best model weights based on validation loss. Implemented in the EarlyStopping class.
-
     """
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
     model = model.to(device)

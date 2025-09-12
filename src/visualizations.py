@@ -6,6 +6,19 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 def plotFmaps_and_activationHist(model, visualizations_folder, val_loader, layer=0):
+    """
+    Plots and saves feature map and activation histogram.
+
+    Globals:
+        device (string): CPU or GPU? Based on availability.
+
+    Args:
+        model (torch.nn.Module): Model to evaluate.
+        visualization_folder (str): Path to save plots.
+        val_loader (torch.utils.data.DataLoader): Validation set's pytorch dataloader.
+        layer (int): Dependent on the model architecture, layer of the model to base plots off.
+    """
+
     # Load weights
     model.to(device)
     model.train()  # keep dropout active
@@ -78,6 +91,16 @@ def plotFmaps_and_activationHist(model, visualizations_folder, val_loader, layer
 
 
 def plotCurves(train_losses, val_losses, train_accs, val_accs, visualizations_folder):
+    """
+    Plots and saves training and validation loss and accuracy curves.
+
+    Args:
+        train_losses (list): List of training loss values.
+        train_accs (list): List of training accuracy values
+        val_losses & val_accs: Same as above but for validation.
+        visualizations_folder (str): Path to save visualizations.
+    """
+
     if not os.path.exists(visualizations_folder):
         print("Save folder not found, creating..")
         os.makedirs(visualizations_folder)
