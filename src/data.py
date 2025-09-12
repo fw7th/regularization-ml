@@ -7,6 +7,10 @@ from torch.utils.data import Dataset
 
 
 class CustomDataset(Dataset):
+    """
+    Custom pytorch dataset.
+    """
+
     def __init__(self, data, labels, transform=None):
         self.data = data.reshape(-1, 3, 32, 32)
         self.labels = labels
@@ -30,12 +34,12 @@ class CustomDataset(Dataset):
 # dataloader = torch.utils.data.DataLoader(dataset, batch_size=32, shuffle=True)
 
 
-def load_cifar_10_data(directory="/content/dataset/cifar-10-batches-py"):
+def load_cifar_10_data(directory):
     """
     Loads the cifar-10-dataset.
 
     Args:
-        directory (string): The base of the cifar-10 dataset.
+        directory (str): The base of the cifar-10 dataset.
 
     Returns:
         train_data (list): Python list of the training data.
@@ -67,9 +71,12 @@ def load_cifar_10_data(directory="/content/dataset/cifar-10-batches-py"):
     return train_data, train_labels, val_data, val_labels, test_data, test_labels
 
 
-def class_to_idx(metadata="/content/dataset/cifar-10-batches-py/batches.meta"):
+def class_to_idx(metadata):
     """
     Custom class to idx implementation for cifar-10 batches.meta file.
+
+    Args:
+        metadata: Path to cifar-10 metadata file.
     """
     label_dict = unpickle(metadata)
     labels = [name.decode("utf-8") for name in label_dict[b"label_names"]]
