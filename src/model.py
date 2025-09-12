@@ -5,6 +5,10 @@ import torch
 
 # Define a small CNN
 class MiniCNN(nn.Module):
+    """
+    Basic CNN for experiments
+    """
+
     def __init__(self, conv_layers, fc_layers):
         super().__init__()
         self.conv = nn.Sequential(*conv_layers)

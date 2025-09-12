@@ -31,6 +31,20 @@ class CustomDataset(Dataset):
 
 
 def load_cifar_10_data(directory="/content/dataset/cifar-10-batches-py"):
+    """
+    Loads the cifar-10-dataset.
+
+    Args:
+        directory (string): The base of the cifar-10 dataset.
+
+    Returns:
+        train_data (list): Python list of the training data.
+        train_labels (list): Python list of the training labels matching the data.
+
+        // test and val labels and data return similar values //
+        // for the testing and validation sets //
+    """
+
     train_data = []
     train_labels = []
     for i in range(1, 6):
@@ -54,6 +68,9 @@ def load_cifar_10_data(directory="/content/dataset/cifar-10-batches-py"):
 
 
 def class_to_idx(metadata="/content/dataset/cifar-10-batches-py/batches.meta"):
+    """
+    Custom class to idx implementation for cifar-10 batches.meta file.
+    """
     label_dict = unpickle(metadata)
     labels = [name.decode("utf-8") for name in label_dict[b"label_names"]]
     class_to_idx = {cls: idx for idx, cls in enumerate(sorted(labels))}
@@ -88,6 +105,9 @@ def check_data_loading(train_loader, val_loader):
 
 
 def Loader(train_data, train_labels, val_data, val_labels, test_data, test_labels):
+    """
+    Function returns the train, test and val loaders, after transformations.
+    """
     print("Starting Data Loading...")
 
     # Check CUDA

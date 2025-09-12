@@ -13,8 +13,32 @@ def trainModel(
     train_loader,
     val_loader,
     model_type,
-    save_path="/content/drive/MyDrive/regularization-data/weights",
+    save_path,
 ):
+    """
+    Training loop. Creates save_path if it doesn't exist.
+
+    Args:
+        model (torch.nn.Module): Model to train.
+        history (dict): Stores training data.
+        train_loader (torch.utils.data.DataLoader): Training set data loader.
+        val_loader: Same as train loader but for validation set (obviously)
+        model_type: Naming semantics to seperate saved model weights.
+
+    Outputs:
+        - training device verification.
+        - tqdm loading bar for sanity testing.
+        - learning rates and epochs.
+        - validation, training losses.
+        - time taken for epoch.
+
+    returns:
+        model (torch.nn.Module): Trained model + weights
+
+    saves:
+        {model_type}.pth (torch.state_dict): Best model weights based on validation loss. Implemented in the EarlyStopping class.
+
+    """
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
     model = model.to(device)
@@ -113,9 +137,6 @@ def trainModel(
         scheduler.step(val_acc)
 
         # Print and save the current LR
-        current_lr = optimizer.param_groups[0]["lr"]
-        print(f"Current learning rate: {current_lr}")
-
         early_stopping(val_loss, model)
 
         # Save model at last epoch

@@ -13,6 +13,16 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 
 # Implementing an early stopping class based on val loss
 class EarlyStopping:
+    """
+    Custom early stopping class based on validation score difference per epoch.
+    Saves the best model weights based on validation loss.
+
+    args:
+        patience (int): How long to hold out till breaking loop ends.
+        delta (float): Tolerable difference btw val loss to increment patience by 1.
+        path (string): Path to save best model weights:
+    """
+
     def __init__(self, patience=5, delta=0.0, path="checkpoint.pt"):
         self.patience = patience
         self.delta = delta
