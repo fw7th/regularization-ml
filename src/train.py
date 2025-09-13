@@ -8,12 +8,7 @@ from .utils import EarlyStopping
 
 
 def trainModel(
-    model,
-    history,
-    train_loader,
-    val_loader,
-    model_type,
-    save_path,
+    model, history, train_loader, val_loader, model_type, save_path, patience=7
 ):
     """
     Training loop. Creates save_path if it doesn't exist.
@@ -25,6 +20,7 @@ def trainModel(
         val_loader: Same as train loader but for validation set (obviously)
         model_type (str): Naming semantics to seperate saved model weights.
         save_path (str): Path to save model.
+        patience (int): Relayed to the early stopping class.
 
     Outputs:
         - training device verification.
@@ -62,13 +58,13 @@ def trainModel(
     if not os.path.isdir(save_path):
         print(
             f"The data storage directory: {save_path}, does not exist."
-            "/nCreating the folder to store weights and model metadata"
+            "\nCreating the folder to store weights and model metadata"
         )
         os.mkdir(save_path)
         print(f"Folder {save_path} created successfully.")
 
     early_stopping = EarlyStopping(
-        patience=10, delta=0.001, path=f"{save_path}/{model_type}.pth"
+        patience, delta=0.001, path=f"{save_path}/{model_type}.pth"
     )
     # Early stopping object saves model based on best val acc.
 
@@ -133,6 +129,9 @@ def trainModel(
 
         history["val_loss"].append(val_loss)
         history["val_acc"].append(val_acc)
+
+        if best_val_acc < val_acc:
+            best_val_acc = val_acc
 
         # Update scheduler
         scheduler.step(val_acc)
