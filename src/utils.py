@@ -50,14 +50,6 @@ class EarlyStopping:
             print("💾 Saved best model!")
 
     def save_checkpoint(self, val_loss, model):
-        if not os.path.isdir(self.path):
-            print(
-                f"The data storage directory: {self.path},  does not exist.\n"
-                "Creating the folder to store weights and model metadata"
-            )
-            os.mkdir(self.path)
-            print(f"Folder {self.path} created successfully.")
-
         torch.save(model.state_dict(), self.path)
         self.val_loss_min = val_loss
 

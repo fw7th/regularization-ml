@@ -23,7 +23,8 @@ def trainModel(
         history (dict): Stores training data.
         train_loader (torch.utils.data.DataLoader): Training set data loader.
         val_loader: Same as train loader but for validation set (obviously)
-        model_type: Naming semantics to seperate saved model weights.
+        model_type (str): Naming semantics to seperate saved model weights.
+        save_path (str): Path to save model.
 
     Outputs:
         - training device verification.
@@ -60,7 +61,7 @@ def trainModel(
     # Add early stopping
     if not os.path.isdir(save_path):
         print(
-            f"The data storage directory: {save_path},  does not exist."
+            f"The data storage directory: {save_path}, does not exist."
             "/nCreating the folder to store weights and model metadata"
         )
         os.mkdir(save_path)

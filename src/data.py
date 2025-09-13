@@ -52,13 +52,13 @@ def load_cifar_10_data(directory):
     train_data = []
     train_labels = []
     for i in range(1, 6):
-        d = unpickle(f"{directory}/data_batch_{i}")
+        d = unpickle(f"{directory}/cifar-10-batches-py/data_batch_{i}")
         train_data.append(d[b"data"])
         train_labels.extend(d[b"labels"])
     training_data = np.vstack(train_data)
     training_labels = np.array(train_labels)
 
-    test_dict = unpickle(f"{directory}/test_batch")
+    test_dict = unpickle(f"{directory}/cifar-10-batches-py/test_batch")
     test_data = test_dict[b"data"]
     test_labels = np.array(test_dict[b"labels"])
 
