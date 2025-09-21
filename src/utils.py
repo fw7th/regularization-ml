@@ -138,7 +138,7 @@ def saveHistory(history, save_path):
         save_path (JSON): Json file to save to. Created if it doesn't exist, overwritten if it does.
     """
 
-    if not os.path.exists(save_path):
+    if not os.path.isfile(save_path):
         print("Save path does not exist, creating..")
         os.makedirs(save_path)
 
