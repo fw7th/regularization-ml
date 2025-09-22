@@ -51,7 +51,7 @@ def trainModel(
 
     # Add learning rate scheduler
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(
-        optimizer, mode="min", factor=0.5, patience=2
+        optimizer, mode="max", factor=0.5, patience=2
     )
 
     # Add early stopping
