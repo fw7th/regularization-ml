@@ -31,10 +31,10 @@ class ConvBlock(nn.Module):
             nn.Conv2d(in_channels, out_channels, 3, padding=1),
             nn.ReLU(inplace=True),
         ]
-        if dropout:
-            layers.append(nn.Dropout2d(drop_val))
         if pool:
             layers.append(nn.MaxPool2d(2, 2))
+        if dropout:
+            layers.append(nn.Dropout2d(drop_val))
         self.block = nn.Sequential(*layers)
 
     def forward(self, x):
