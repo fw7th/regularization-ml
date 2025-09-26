@@ -8,7 +8,14 @@ from .utils import EarlyStopping
 
 
 def trainModel(
-    model, history, train_loader, val_loader, model_type, save_path, train_patience=7
+    model,
+    history,
+    train_loader,
+    val_loader,
+    model_type,
+    save_path,
+    train_patience=7,
+    max_epochs=70,
 ):
     """
     Training loop. Creates save_path if it doesn't exist.
@@ -21,6 +28,7 @@ def trainModel(
         model_type (str): Naming semantics to seperate saved model weights.
         save_path (str): Path to save model.
         train_patience (int): Relayed to the early stopping class.
+        max_epochs (int): Max alloted epochs
 
     Outputs:
         - training device verification.
@@ -45,9 +53,6 @@ def trainModel(
     optimizer = optim.AdamW(model.parameters(), lr=1e-3, weight_decay=1e-3)
 
     best_val_acc = 0.0
-
-    # Training loop
-    max_epochs = 70
 
     # Add learning rate scheduler
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(
