@@ -5,8 +5,9 @@
   <img src="results/fmapsLayer2.png" width="60%">
   <br>
   <em>Figure 1: Feature map visualization under conv dropout. 
-  Dropout introduces a “pepper and salt” activation pattern.</em>
+  Dropout introduces a “pepper and salt” suppression of features during training.</em>
 </p>
+
 - It's activation distribution is relayed in `notebooks/README`.
 
 ---
@@ -79,11 +80,13 @@ Both dropout and cutout improved accuracy by ~2–3% compared to baseline.
     - ImageNet normalization  
 
 ## 🔹 Citations
+```bibtex
 @article{devries2017cutout,
   title={Improved Regularization of Convolutional Networks with Cutout},
   author={DeVries, Terrance and Taylor, Graham W},
   journal={arXiv preprint arXiv:1708.04552},
   year={2017}
 }
+```
 
 - Model weights available @: [https://drive.google.com/drive/folders/1e9uG825xt6FS12kankDSHI_ZETO-ke-o?usp=drive_link]
