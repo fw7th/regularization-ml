@@ -17,8 +17,8 @@ This folder contains all experiment notebooks. Each notebook isolates one idea, 
 - Key Findings: Validation accuracy reached 85.0% (test 83.3%). Conv dropout produced the strongest regularization effect, improving validation accuracy but slightly lowering test accuracy compared to FC dropout.
 
 <p align="center">
-  <img src="results/fc_dropout_curve.png" width="45%">
-  <img src="results/conv_dropout_curve.png" width="45%">
+  <img src="../results/fc_dropout_curve.png" width="45%">
+  <img src="../results/conv_dropout_curve.png" width="45%">
   <br>
   <em>Figure 1: Validation/test accuracy across dropout probabilities. Left: FC dropout. Right: Conv dropout.</em>
 </p>
@@ -28,7 +28,7 @@ This folder contains all experiment notebooks. Each notebook isolates one idea, 
 - Key Findings: Validation accuracy 84.0% (test 84.0%). Cutout matched or exceeded dropout in test accuracy, highlighting augmentation’s effectiveness over architectural regularization.
 
 <p align="center">
-  <img src="results/cutout_comparison.png" width="50%">
+  <img src="../results/cutout_comparison.png" width="50%">
   <br>
   <em>Figure 2: Validation/test accuracy across cutout sizes.</em>
 </p>
@@ -37,7 +37,7 @@ This folder contains all experiment notebooks. Each notebook isolates one idea, 
 
 
 <p align="center">
-  <img src="results/confusion_matrix.png" width="50%">
+  <img src="../results/confusion_matrix.png" width="50%">
   <br>
   <em>Confusion matrix of best performing model.</em>
 </p>
@@ -48,7 +48,7 @@ This folder contains all experiment notebooks. Each notebook isolates one idea, 
 - **Comparison:** Dropout in convolutional layers gave the highest validation accuracy. Cutout matched dropout in test accuracy, showing its strength as a data augmentation technique.
 
 <p align="center">
-  <img src="results/histLayer2.png" width="50%">
+  <img src="../results/histLayer2.png" width="50%">
   <br>
   <em>Figure 3: Histogram of activations under dropout, showing zeroed outputs.</em>
 </p>
