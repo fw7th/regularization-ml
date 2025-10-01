@@ -1,9 +1,8 @@
-# Notebooks Guide
+## Notebooks Guide
 This folder contains all experiment notebooks. Each notebook isolates one idea, but together they show the progression of experiments.
 
 ---
 
-## 📂 Notebooks Guide
 ### **01_baseline.ipynb**  
 - **Setup:** Baseline CNN with standard augmentations only.  
 - **Result:** Val 82.4% / Test 81.8%  
@@ -13,7 +12,7 @@ This folder contains all experiment notebooks. Each notebook isolates one idea, 
 - **Result:** Val 83.8% / Test 83.7%  
 
 <p align="center">
-  <img src="results/fc_dropout_curve.png" width="45%">
+  <img src="../results/fc_dropout_curve.png" width="45%">
   <br>
   <em>Figure 1: Accuracy vs dropout probability.</em>
 </p>
